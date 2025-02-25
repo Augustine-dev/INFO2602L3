@@ -49,8 +49,23 @@ def index():
   return '<h1>mY Todo API</h1>'
 
 # Task 3.1 Here
+def login_user(username, password):
+  user = User.query.filter_by(username=username).first()
+  if user and user.check_password(password):
+    token = create_access_token(identity=username)
+    response = jsonify(access_token=token)
+    set_access_cookies(response, token)
+    return response
+  return jsonify(message="Invalid username or password"), 401
 
 # Task 3.2 Here
+@app.route('/login', methods=['POST'])
+def user_login_view():
+  data = request.json
+  response = login_user(data['username'], data['password'])
+  if not response:
+    return jsonify(message='bad username or password given'), 403
+  return response
 
 # Task 3.3 Here
 
