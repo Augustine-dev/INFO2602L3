@@ -20,7 +20,7 @@ app.config['SECRET_KEY'] = 'MySecretKey'
 app.config['JWT_ACCESS_COOKIE_NAME'] = 'access_token'
 app.config['JWT_REFRESH_COOKIE_NAME'] = 'refresh_token'
 app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
-app.config["JWT_COOKIE_SECURE"] = True
+app.config["JWT_COOKIE_SECURE"] = False
 app.config["JWT_SECRET_KEY"] = "super-secret"
 app.config["JWT_COOKIE_CSRF_PROTECT"] = False
 
@@ -59,13 +59,13 @@ def login_user(username, password):
   return jsonify(message="Invalid username or password"), 401
 
 # Task 3.2 Here
-#@app.route('/login', methods=['POST'])
-#def user_login_view():
-#  data = request.json
-#  response = login_user(data['username'], data['password'])
-#  if not response:
-#    return jsonify(message='bad username or password given'), 403
-#  return response
+@app.route('/login', methods=['POST'])
+def user_login_view():
+  data = request.json
+  response = login_user(data['username'], data['password'])
+  if not response:
+    return jsonify(message='bad username or password given'), 403
+  return response
 
 # Task 3.3 Here
 
